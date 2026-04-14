@@ -1,51 +1,43 @@
-def get_letter_grade(grade):
+def get_price_category(price):
     
-    if grade >= 90:
-        return "A"
-    elif grade >= 80:
-        return "B"
-    elif grade >= 75:
-        return "C"
-    elif grade >= 60:
-        return "D"
+    if price < 50:
+        return "Budget"
+    elif price < 200:
+        return "Mid-range"
     else:
-        return "F"
+        return "Premium"
 
 
-def check_pass_or_fail(grade):
-   
-    if grade >= 75:
-        return "PASSED"
-    else:
-        return "FAILED"
-
-
-def save_student_record(first_name, last_name, grade, letter_grade, status):
+def check_stock_level(stock):
     
-    with open("grade.txt", "a") as file:
-        file.write(f"Name: {first_name} {last_name} | Grade: {grade} | Letter: {letter_grade} | Status: {status}\n")
+    if stock >= 10:
+        return "OK"
+    else:
+        return "LOW STOCK - Reorder needed"
+
+
+def save_product(name, price, category, stock, stock_status):
+    
+    with open("inventory.txt", "a") as file:
+        file.write(f"Product: {name} | Price: {price:.2f} | Category: {category} | Stock: {stock} | Status: {stock_status}\n")
 
 
 
 while True:
-    # 1. INPUT SECTION
-    first_name = input("Enter student's first name: ")
-    last_name = input("Enter student's last name: ")
-    grade = int(input("Enter student's grade (0-100): "))
+    name = input("Enter product name: ")
+    price = float(input("Enter product price (in pesos): "))
+    stock = int(input("Enter quantity in stock: "))
 
-    # 2. PROCESSING SECTION
-    letter_grade = get_letter_grade(grade)
-    status = check_pass_or_fail(grade)
+    category = get_price_category(price)
+    stock_status = check_stock_level(stock)
 
-    # 3. OUTPUT SECTION
-    print("\nLetter Grade:", letter_grade)
-    print("Status:", status)
+    print("\nPrice Category:", category)
+    print("Stock Status:", stock_status)
 
-    save_student_record(first_name, last_name, grade, letter_grade, status)
-    print("Record saved successfully!\n")
+    save_product(name, price, category, stock, stock_status)
+    print("Product saved to inventory!\n")
 
-    # EXIT SECTION
-    choice = input("Do you want to add another student? (yes/no): ").lower()
+    choice = input("Add another product? (yes/no): ").lower()
     if choice != "yes":
-        print("All student records have been saved. Goodbye!")
+        print("Inventory update complete. Goodbye!")
         break
